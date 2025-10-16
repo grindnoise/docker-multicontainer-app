@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: 'postgres:latest'
+
+  redis:
+    image: 'redis:latest'
+
+  server:
+    build:
+      dockerfile: Dockerfile_dev
+      context: ./server
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - PG_HOST=postgres
+      - PG_PORT=5432
+      - PG_DB=postgres
+      - PG_USER=postgres
+      - PG_PWD=postgres_password
+    volumes:
+      - /app/node_modules # exclude
+      - ./server:/app # map volumes
